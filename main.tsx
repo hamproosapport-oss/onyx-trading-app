@@ -4,8 +4,8 @@ import App from './App.tsx';
 import './index.css';
 import './firebase'; // Initialize Firebase
 
-import { LanguageProvider } from './lib/i18n';
-import { ToastProvider } from './components/Toast';
+import { LanguageProvider } from './i18n';
+import { ToastProvider } from './Toast';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
