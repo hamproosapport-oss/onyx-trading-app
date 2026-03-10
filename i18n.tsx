@@ -1,0 +1,616 @@
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+
+export type Language = 'en' | 'bn' | 'hi' | 'es' | 'pt' | 'ru' | 'ar' | 'tr' | 'vi' | 'id';
+
+interface TranslationData {
+  [key: string]: {
+    [K in Language]: string;
+  };
+}
+
+export const translations: TranslationData = {
+  // General
+  'app.name': {
+    en: 'ONYX OPTION',
+    bn: 'অনিক্স অপশন',
+    hi: 'ओनिक्स ऑप्शन',
+    es: 'ONYX OPTION',
+    pt: 'ONYX OPTION',
+    ru: 'ONYX OPTION',
+    ar: 'أونيكس أوبشن',
+    tr: 'ONYX OPTION',
+    vi: 'ONYX OPTION',
+    id: 'ONYX OPTION',
+  },
+  'common.login': {
+    en: 'Log In',
+    bn: 'লগ ইন',
+    hi: 'लॉग इन',
+    es: 'Iniciar sesión',
+    pt: 'Entrar',
+    ru: 'Войти',
+    ar: 'تسجيل الدخول',
+    tr: 'Giriş Yap',
+    vi: 'Đăng nhập',
+    id: 'Masuk',
+  },
+  'common.signup': {
+    en: 'Sign Up',
+    bn: 'সাইন আপ',
+    hi: 'साइन अप',
+    es: 'Registrarse',
+    pt: 'Cadastrar',
+    ru: 'Регистрация',
+    ar: 'اشتراك',
+    tr: 'Kayıt Ol',
+    vi: 'Đăng ký',
+    id: 'Daftar',
+  },
+  'common.start_trading': {
+    en: 'Start Trading',
+    bn: 'ট্রেডিং শুরু করুন',
+    hi: 'ट्रेडिंग शुरू करें',
+    es: 'Empezar a operar',
+    pt: 'Começar a operar',
+    ru: 'Начать торговлю',
+    ar: 'ابدأ التداول',
+    tr: 'Ticarete Başla',
+    vi: 'Bắt đầu giao dịch',
+    id: 'Mulai Trading',
+  },
+  'common.deposit': {
+    en: 'Deposit',
+    bn: 'ডিপোজিট',
+    hi: 'जमा करें',
+    es: 'Depositar',
+    pt: 'Depositar',
+    ru: 'Депозит',
+    ar: 'إيداع',
+    tr: 'Para Yatır',
+    vi: 'Nạp tiền',
+    id: 'Setoran',
+  },
+  'common.withdraw': {
+    en: 'Withdraw',
+    bn: 'উইথড্র',
+    hi: 'निकासी',
+    es: 'Retirar',
+    pt: 'Sacar',
+    ru: 'Вывод',
+    ar: 'سحب',
+    tr: 'Para Çek',
+    vi: 'Rút tiền',
+    id: 'Penarikan',
+  },
+  'common.balance': {
+    en: 'Balance',
+    bn: 'ব্যালেন্স',
+    hi: 'बैलेंस',
+    es: 'Saldo',
+    pt: 'Saldo',
+    ru: 'Баланс',
+    ar: 'الرصيد',
+    tr: 'Bakiye',
+    vi: 'Số dư',
+    id: 'Saldo',
+  },
+  'common.back': {
+    en: 'Back',
+    bn: 'পিছনে',
+    hi: 'पीछे',
+    es: 'Volver',
+    pt: 'Voltar',
+    ru: 'Назад',
+    ar: 'عودة',
+    tr: 'Geri',
+    vi: 'Quay lại',
+    id: 'Kembali',
+  },
+  'common.save': {
+    en: 'Save',
+    bn: 'সংরক্ষণ করুন',
+    hi: 'সहेजें',
+    es: 'Guardar',
+    pt: 'Salvar',
+    ru: 'Сохранить',
+    ar: 'حفظ',
+    tr: 'Kaydet',
+    vi: 'Lưu',
+    id: 'Simpan',
+  },
+
+  // Navigation
+  'nav.terminal': {
+    en: 'Terminal',
+    bn: 'টার্মিনাল',
+    hi: 'टर्मिनल',
+    es: 'Terminal',
+    pt: 'Terminal',
+    ru: 'Терминал',
+    ar: 'المحطة',
+    tr: 'Terminal',
+    vi: 'Thiết bị đầu cuối',
+    id: 'Terminal',
+  },
+  'nav.trades': {
+    en: 'Trades',
+    bn: 'ট্রেডস',
+    hi: 'ট্রেডস',
+    es: 'Operaciones',
+    pt: 'Operações',
+    ru: 'Сделки',
+    ar: 'التداولات',
+    tr: 'İşlemler',
+    vi: 'Giao dịch',
+    id: 'Perdagangan',
+  },
+  'nav.market': {
+    en: 'Market',
+    bn: 'মার্কেট',
+    hi: 'মার্কেট',
+    es: 'Mercado',
+    pt: 'Mercado',
+    ru: 'Рынок',
+    ar: 'السوق',
+    tr: 'Piyasa',
+    vi: 'Thị trường',
+    id: 'Pasar',
+  },
+  'nav.rewards': {
+    en: 'Rewards',
+    bn: 'পুরস্কার',
+    hi: 'পুরস্কার',
+    es: 'Premios',
+    pt: 'Recompensas',
+    ru: 'Награды',
+    ar: 'المكافآت',
+    tr: 'Ödüller',
+    vi: 'Phần thưởng',
+    id: 'Hadiah',
+  },
+  'nav.help': {
+    en: 'Help',
+    bn: 'সহায়তা',
+    hi: 'सहायতা',
+    es: 'Ayuda',
+    pt: 'Ajuda',
+    ru: 'Помощь',
+    ar: 'مساعدة',
+    tr: 'Yardım',
+    vi: 'Trợ giúp',
+    id: 'Bantuan',
+  },
+  'nav.settings': {
+    en: 'Settings',
+    bn: 'সেটিংস',
+    hi: 'सेटिंग्स',
+    es: 'Ajustes',
+    pt: 'Configurações',
+    ru: 'Настройки',
+    ar: 'الإعدادات',
+    tr: 'Ayarlar',
+    vi: 'Cài đặt',
+    id: 'Pengaturan',
+  },
+
+  // Trading
+  'trade.up': {
+    en: 'Up',
+    bn: 'উপরে',
+    hi: 'ऊपर',
+    es: 'Arriba',
+    pt: 'Acima',
+    ru: 'Вверх',
+    ar: 'أعلى',
+    tr: 'Yukarı',
+    vi: 'Lên',
+    id: 'Naik',
+  },
+  'trade.down': {
+    en: 'Down',
+    bn: 'নিচে',
+    hi: 'नीচে',
+    es: 'Abajo',
+    pt: 'Abaixo',
+    ru: 'Вниз',
+    ar: 'أسفل',
+    tr: 'Aşağı',
+    vi: 'Xuống',
+    id: 'Turun',
+  },
+  'trade.amount': {
+    en: 'Amount',
+    bn: 'পরিমাণ',
+    hi: 'राशि',
+    es: 'Cantidad',
+    pt: 'Valor',
+    ru: 'Сумма',
+    ar: 'المبلغ',
+    tr: 'Tutar',
+    vi: 'Số tiền',
+    id: 'Jumlah',
+  },
+  'trade.time': {
+    en: 'Time',
+    bn: 'সময়',
+    hi: 'समय',
+    es: 'Tiempo',
+    pt: 'Tempo',
+    ru: 'Время',
+    ar: 'الوقت',
+    tr: 'Zaman',
+    vi: 'Thời gian',
+    id: 'Waktu',
+  },
+  'trade.payout': {
+    en: 'Payout',
+    bn: 'পে-আউট',
+    hi: 'পে-আউট',
+    es: 'Pago',
+    pt: 'Pagamento',
+    ru: 'Выплата',
+    ar: 'العائد',
+    tr: 'Ödeme',
+    vi: 'Thanh toán',
+    id: 'Pembayaran',
+  },
+  'trade.profit': {
+    en: 'Profit',
+    bn: 'লাভ',
+    hi: 'লাভ',
+    es: 'Ganancia',
+    pt: 'Lucro',
+    ru: 'Прибыль',
+    ar: 'الربح',
+    tr: 'Kâr',
+    vi: 'Lợi nhuận',
+    id: 'Keuntungan',
+  },
+  'trade.loss': {
+    en: 'Loss',
+    bn: 'ক্ষতি',
+    hi: 'হানি',
+    es: 'Pérdida',
+    pt: 'Prejuízo',
+    ru: 'Убыток',
+    ar: 'الخسارة',
+    tr: 'Zarar',
+    vi: 'Thua lỗ',
+    id: 'Kerugian',
+  },
+  'trade.active': {
+    en: 'Active',
+    bn: 'সক্রিয়',
+    hi: 'सक्रिय',
+    es: 'Activo',
+    pt: 'Ativo',
+    ru: 'Активно',
+    ar: 'نشط',
+    tr: 'Aktif',
+    vi: 'Hoạt động',
+    id: 'Aktif',
+  },
+  'trade.closed': {
+    en: 'Closed',
+    bn: 'বন্ধ',
+    hi: 'বন্ধ',
+    es: 'Cerrado',
+    pt: 'Fechado',
+    ru: 'Закрыто',
+    ar: 'مغلق',
+    tr: 'Kapalı',
+    vi: 'Đã đóng',
+    id: 'Tertutup',
+  },
+
+  // Homepage
+  'home.hero.title': {
+    en: 'TRADE SMARTER',
+    bn: 'স্মার্টলি ট্রেড করুন',
+    hi: 'স্মার্ট ট্রেড करें',
+    es: 'OPERA MÁS INTELIGENTE',
+    pt: 'OPERE DE FORMA INTELIGENTE',
+    ru: 'ТОРГУЙТЕ УМНЕЕ',
+    ar: 'تداول بذكاء',
+    tr: 'DAHA AKILLI TİCARET',
+    vi: 'GIAO DỊCH THÔNG MINH HƠN',
+    id: 'TRADING LEBIH CERDAS',
+  },
+  'home.hero.subtitle': {
+    en: 'NOT HARDER',
+    bn: 'কঠিনভাবে নয়',
+    hi: 'कठिन नहीं',
+    es: 'NO MÁS DIFÍCIL',
+    pt: 'NÃO MAIS DIFÍCIL',
+    ru: 'А НЕ СЛОЖНЕЕ',
+    ar: 'وليس بجهد أكبر',
+    tr: 'DAHA ZOR DEĞİL',
+    vi: 'KHÔNG PHẢI KHÓ KHĂN HƠN',
+    id: 'BUKAN LEBIH KERAS',
+  },
+  'home.hero.desc': {
+    en: "Access the world's most innovative binary trading platform. Real-time charts, instant execution, and professional tools for everyone.",
+    bn: 'বিশ্বের সবচেয়ে উদ্ভাবনী বাইনারি ট্রেডিং প্ল্যাটফর্ম অ্যাক্সেস করুন। রিয়েল-টাইম চার্ট, তাত্ক্ষণিক এক্সিকিউশন এবং সবার জন্য পেশাদার সরঞ্জাম।',
+    hi: 'दुनिया के सबसे नवीन बाइनरी ट्रेडिंग प्लेटफॉर्म तक पहुंचें। रीयल-टाइम चार्ट, तत्काल निष्पादन और सभी के लिए पेशेवर उपकरण।',
+    es: 'Acceda a la plataforma de trading binario más innovadora del mundo. Gráficos en tiempo real, ejecución instantánea y herramientas profesionales para todos.',
+    pt: 'Acesse a plataforma de negociação binária mais inovadora do mundo. Gráficos em tempo real, execução instantânea e ferramentas profissionais para todos.',
+    ru: 'Получите доступ к самой инновационной в мире платформе для бинарной торговли. Графики в реальном времени, мгновенное исполнение и профессиональные инструменты для всех.',
+    ar: 'ادخل إلى منصة التداول الثنائي الأكثر ابتكاراً في العالم. رسوم بيانية فورية، تنفيذ فوري، وأدوات احترافية للجميع.',
+    tr: 'Dünyanın en yenilikçi ikili opsiyon ticaret platformuna erişin. Gerçek zamanlı grafikler, anında uygulama ve herkes için profesyonel araçlar.',
+    vi: 'Truy cập nền tảng giao dịch nhị phân sáng tạo nhất thế giới. Biểu đồ thời gian thực, thực hiện tức thì và các công cụ chuyên nghiệp cho mọi người.',
+    id: 'Akses platform trading biner paling inovatif di dunia. Grafik real-time, eksekusi instan, and alat profesional untuk semua orang.',
+  },
+
+  // Settings
+  'settings.title': {
+    en: 'Settings',
+    bn: 'সেটিংস',
+    hi: 'सेटिंग्स',
+    es: 'Ajustes',
+    pt: 'Configurações',
+    ru: 'Настройки',
+    ar: 'الإعدادات',
+    tr: 'Ayarlar',
+    vi: 'Cài đặt',
+    id: 'Pengaturan',
+  },
+  'settings.profile': {
+    en: 'Profile',
+    bn: 'প্রোফাইল',
+    hi: 'प्रोफ़ाइल',
+    es: 'Perfil',
+    pt: 'Perfil',
+    ru: 'Профиль',
+    ar: 'الملف الشخصي',
+    tr: 'Profil',
+    vi: 'Hồ sơ',
+    id: 'Profil',
+  },
+  'settings.appearance': {
+    en: 'Appearance',
+    bn: 'চেহারা',
+    hi: 'दिखावट',
+    es: 'Apariencia',
+    pt: 'Aparência',
+    ru: 'Внешний вид',
+    ar: 'المظهر',
+    tr: 'Görünüm',
+    vi: 'Giao diện',
+    id: 'Tampilan',
+  },
+  'settings.language': {
+    en: 'Language',
+    bn: 'ভাষা',
+    hi: 'ভাষা',
+    es: 'Idioma',
+    pt: 'Idioma',
+    ru: 'Язык',
+    ar: 'اللغة',
+    tr: 'Dil',
+    vi: 'Ngôn ngữ',
+    id: 'Bahasa',
+  },
+  'settings.security': {
+    en: 'Security',
+    bn: 'নিরাপত্তা',
+    hi: 'সুরক্ষা',
+    es: 'Seguridad',
+    pt: 'Segurança',
+    ru: 'Безопасность',
+    ar: 'الأمان',
+    tr: 'Güvenlik',
+    vi: 'Bảo mật',
+    id: 'Keamanan',
+  },
+  'settings.notifications': {
+    en: 'Notifications',
+    bn: 'নোটিফিকেশন',
+    hi: 'अधिसूचनाएं',
+    es: 'Notificaciones',
+    pt: 'Notificações',
+    ru: 'Уведомления',
+    ar: 'الإشعارات',
+    tr: 'Bildirimler',
+    vi: 'Thông báo',
+    id: 'Notifikasi',
+  },
+  'settings.support': {
+    en: 'Support',
+    bn: 'সাপোর্ট',
+    hi: 'सपोर्ट',
+    es: 'Soporte',
+    pt: 'Suporte',
+    ru: 'Поддержка',
+    ar: 'الدعم',
+    tr: 'Destek',
+    vi: 'Hỗ trợ',
+    id: 'Dukungan',
+  },
+  'settings.about': {
+    en: 'About',
+    bn: 'সম্পর্কে',
+    hi: 'के बारे में',
+    es: 'Acerca de',
+    pt: 'Sobre',
+    ru: 'О нас',
+    ar: 'حول',
+    tr: 'Hakkında',
+    vi: 'Giới thiệu',
+    id: 'Tentang',
+  },
+  'settings.logout': {
+    en: 'Log Out',
+    bn: 'লগ আউট',
+    hi: 'লগ আউট',
+    es: 'Cerrar sesión',
+    pt: 'Sair',
+    ru: 'Выйти',
+    ar: 'تسجيل الخروج',
+    tr: 'Çıkış Yap',
+    vi: 'Đăng xuất',
+    id: 'Keluar',
+  },
+
+  // Auth
+  'auth.welcome': {
+    en: 'Welcome Back',
+    bn: 'স্বাগতম',
+    hi: 'स्वागत है',
+    es: 'Bienvenido de nuevo',
+    pt: 'Bem-vindo de volta',
+    ru: 'С возвращением',
+    ar: 'مرحباً بعودتك',
+    tr: 'Tekrar Hoş Geldiniz',
+    vi: 'Chào mừng trở lại',
+    id: 'Selamat Datang Kembali',
+  },
+  'auth.create_account': {
+    en: 'Create Account',
+    bn: 'অ্যাকাউন্ট তৈরি করুন',
+    hi: 'खाता बनाएं',
+    es: 'Crear cuenta',
+    pt: 'Criar conta',
+    ru: 'Создать аккаунт',
+    ar: 'إنشاء حساب',
+    tr: 'Hesap Oluştur',
+    vi: 'Tạo tài khoản',
+    id: 'Buat Akun',
+  },
+  'auth.email': {
+    en: 'Email Address',
+    bn: 'ইমেল ঠিকানা',
+    hi: 'ईमेल पता',
+    es: 'Correo electrónico',
+    pt: 'E-mail',
+    ru: 'Электронная почта',
+    ar: 'البريد الإلكتروني',
+    tr: 'E-posta Adresi',
+    vi: 'Địa chỉ Email',
+    id: 'Alamat Email',
+  },
+  'auth.password': {
+    en: 'Password',
+    bn: 'পাসওয়ার্ড',
+    hi: 'पासवर्ड',
+    es: 'Contraseña',
+    pt: 'Senha',
+    ru: 'Пароль',
+    ar: 'كلمة المرور',
+    tr: 'Şifre',
+    vi: 'Mật khẩu',
+    id: 'Kata Sandi',
+  },
+  'auth.name': {
+    en: 'Full Name',
+    bn: 'পুরো নাম',
+    hi: 'पूरा नाम',
+    es: 'Nombre completo',
+    pt: 'Nome completo',
+    ru: 'Полное имя',
+    ar: 'الاسم الكامل',
+    tr: 'Ad Soyad',
+    vi: 'Họ và tên',
+    id: 'Nama Lengkap',
+  },
+
+  // Homepage Sections
+  'home.features.title': {
+    en: 'Why Professional Traders Choose Us',
+    bn: 'কেন পেশাদার ট্রেডাররা আমাদের বেছে নেন',
+    hi: 'पेशेवर ट्रेडर्स हमें क्यों चुनते हैं',
+    es: 'Por qué los traders profesionales nos eligen',
+    pt: 'Por que traders profissionais nos escolhem',
+    ru: 'Почему профессиональные трейдеры выбирают нас',
+    ar: 'لماذا يختارنا المتداولون المحترفون',
+    tr: 'Profesyonel Yatırımcılar Neden Bizi Seçiyor?',
+    vi: 'Tại sao các nhà giao dịch chuyên nghiệp chọn chúng tôi',
+    id: 'Mengapa Trader Profesional Memilih Kami',
+  },
+  'home.how_it_works.title': {
+    en: 'Start Trading in 3 Simple Steps',
+    bn: '৩টি সহজ ধাপে ট্রেডিং শুরু করুন',
+    hi: '3 सरल चरणों में ट्रेडिंग शुरू करें',
+    es: 'Empieza a operar en 3 sencillos pasos',
+    pt: 'Comece a operar em 3 passos simples',
+    ru: 'Начните торговать за 3 простых шага',
+    ar: 'ابدأ التداول في 3 خطوات بسيطة',
+    tr: '3 Basit Adımda Ticarete Başlayın',
+    vi: 'Bắt đầu giao dịch trong 3 bước đơn giản',
+    id: 'Mulai Trading dalam 3 Langkah Sederhana',
+  },
+  'home.live_trades.title': {
+    en: 'Real-time Trading Results',
+    bn: 'রিয়েল-টাইম ট্রেডিং ফলাফল',
+    hi: 'रीयल-टाइम ट्रेडिंग परिणाम',
+    es: 'Resultados de trading en tiempo real',
+    pt: 'Resultados de negociação em tempo real',
+    ru: 'Результаты торговли в реальном времени',
+    ar: 'نتائج التداول في الوقت الحقيقي',
+    tr: 'Gerçek Zamanlı Ticaret Sonuçları',
+    vi: 'Kết quả giao dịch thời gian thực',
+    id: 'Hasil Trading Real-time',
+  },
+};
+
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [language, setLanguageState] = useState<Language>(() => {
+    const saved = localStorage.getItem('app-language');
+    return (saved as Language) || 'en';
+  });
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    localStorage.setItem('app-language', lang);
+    // Update direction for Arabic
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+  };
+
+  useEffect(() => {
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const t = (key: string): string => {
+    if (!translations[key]) {
+      console.warn(`Translation key not found: ${key}`);
+      return key;
+    }
+    return translations[key][language] || translations[key]['en'];
+  };
+
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+export const useTranslation = () => {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error('useTranslation must be used within a LanguageProvider');
+  }
+  return context;
+};
+
+export const languages: { code: Language; name: string; flag: string }[] = [
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'bn', name: 'বাংলা', flag: '🇧🇩' },
+  { code: 'hi', name: 'हिन्दी', flag: '🇮🇳' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'pt', name: 'Português', flag: '🇧🇷' },
+  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+  { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
+  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' },
+  { code: 'id', name: 'Bahasa Indonesia', flag: '🇮🇩' },
+];

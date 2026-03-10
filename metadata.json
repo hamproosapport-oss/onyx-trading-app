@@ -1,0 +1,9 @@
+{
+  "name": "হয়ছে",
+  "description": "ONYX OPTION is a professional binary trading simulation platform featuring real-time charts, demo trading, and advanced portfolio management.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
